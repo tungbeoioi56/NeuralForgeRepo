@@ -1,15 +1,16 @@
-function countSubstrings(s) {
-  let count = 0;
-  for (let i = 0; i < s.length; i++) {
-    extendPalindrome(i, i);
-    extendPalindrome(i, i + 1);
-  }
-  return count;
-  function extendPalindrome(left, right) {
-    while (left >= 0 && right < s.length && s[left] === s[right]) {
-      count++;
-      left--;
-      right++;
+function numDecodings(s) {
+  const dp = new Array(s.length + 1).fill(0);
+  dp[0] = 1;
+  dp[1] = s[0] === "0" ? 0 : 1;
+  for (let i = 2; i <= s.length; i++) {
+    const oneDigit = parseInt(s.substring(i - 1, i));
+    const twoDigits = parseInt(s.substring(i - 2, i));
+    if (oneDigit >= 1) {
+      dp[i] += dp[i - 1];
+    }
+    if (twoDigits >= 10 && twoDigits <= 26) {
+      dp[i] += dp[i - 2];
     }
   }
+  return dp[s.length];
 }
